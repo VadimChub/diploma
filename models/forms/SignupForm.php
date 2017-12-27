@@ -27,6 +27,7 @@ class SignupForm extends Model
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            [['username'], 'unique', 'targetClass' => User::className()],
 
             ['email', 'trim'],
             ['email', 'required'],
@@ -39,6 +40,10 @@ class SignupForm extends Model
         ];
     }
 
+    /**
+     * save user
+     * @return User|bool
+     */
     public function save()
     {
         if ($this->validate()){
@@ -51,7 +56,9 @@ class SignupForm extends Model
             $user->auth_key = Yii::$app->security->generateRandomString();
             $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
 
-            return $user->save();
+            if ($user->save()){
+                return $user;
+            }
         }
         return false;
     }

@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Brand;
+use app\models\forms\ProductAddForm;
 use Yii;
 use app\models\Product;
 use app\models\Category;
@@ -64,13 +66,20 @@ class ProductController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Product();
+        $model = new ProductAddForm();
+        $product = new Product();
+        $brands = Brand::getBrands();
+        $categories = Category::getCategories();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success','Your product was successfully sent to moderating');
+            //return $this->redirect(['view', 'id' => $product->id]);
+            return $this->redirect(['site/index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'brands' => $brands,
+                'categories' => $categories,
             ]);
         }
     }

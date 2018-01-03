@@ -1,10 +1,14 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use kartik\color\ColorInput;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Product */
+/* @var $model app\models\forms\ProductAddForm */
+/* @var $brands array */
+/* @var $categories array */
 
 $this->title = 'Create Product';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
@@ -12,10 +16,35 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <?php $form = ActiveForm::begin(); ?>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'short_description')->textInput(['maxlength' => true])->hint('this text will be on main image') ?>
+
+    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+    <?= $form->field($model, 'price')->textInput() ?>
+
+    <?= $form->field($model, 'brand')->textInput()->dropDownList($brands) ?>
+
+    <?= $form->field($model, 'category')->textInput()->dropDownList($categories) ?>
+
+    <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'color')->widget(ColorInput::classname(), [
+        'options' => ['placeholder' => 'Select color ...'],
+    ])->hint('Click on the button to select color') ?>
+
+    <?= $form->field($model, 'constitution')->textInput(['maxlength' => true]) ?>
+
+
+
+    <div class="form-group">
+        <?= Html::submitButton('Create', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+    </div>
+
+    <?php ActiveForm::end(); ?>
 
 </div>

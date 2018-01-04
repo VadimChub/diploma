@@ -21,15 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'short_description')->textInput(['maxlength' => true])->hint('this text will be on main image') ?>
+    <?= $form->field($model, 'short_description')->textInput(['maxlength' => true])->hint('This text will be on main image') ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
-    <?= $form->field($model, 'brand')->textInput()->dropDownList($brands) ?>
+    <?= $form->field($model, 'brand')->textInput()->dropDownList($brands, ['prompt' => 'Select brand of your product']) ?>
 
-    <?= $form->field($model, 'category')->textInput()->dropDownList($categories) ?>
+    <?= $form->field($model, 'category')->textInput()->dropDownList($categories, ['prompt' => 'Select category of your product']) ?>
 
     <?= $form->field($model, 'size')->textInput(['maxlength' => true]) ?>
 

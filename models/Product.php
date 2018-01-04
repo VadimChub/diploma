@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "product".
  *
@@ -25,8 +26,15 @@ use Yii;
  * @property Brand $brand
  * @property Category $category
  */
+
+
 class Product extends \yii\db\ActiveRecord
 {
+    const PRODUCT_STATUS_SELLING = 100;
+    const PRODUCT_STATUS_SOLD = 200;
+    const PRODUCT_STATUS_CHECKING = 300;
+    const PRODUCT_STATUS_PAUSED = 400;
+
     /**
      * @inheritdoc
      */
@@ -35,6 +43,31 @@ class Product extends \yii\db\ActiveRecord
         return 'product';
     }
 
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['title', 'short_description'], 'required'],
+            [['title', 'short_description', 'constitution'], 'string', 'max' => 255],
+
+            [['brand_id', 'category_id'], 'required'],
+            [['brand_id', 'category_id'], 'string', 'max' => 255],
+            [['brand_id'], 'unique', 'targetClass' => Brand::className(), 'targetAttribute' => 'name'],
+            [['category_id'], 'unique', 'targetClass' => Category::className(), 'targetAttribute' => 'name'],
+
+            [['description'], 'required'],
+            [['description'], 'string'],
+
+            [['price'], 'required'],
+            [['price'], 'integer'],
+
+            [['size'], 'string', 'max' => 7],
+
+            [['color'], 'string', 'max' => 20],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -59,6 +92,7 @@ class Product extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * @return \yii\db\ActiveQuery|array
      */
@@ -74,4 +108,6 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id'])->one();
     }
+
+
 }

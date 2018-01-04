@@ -8,10 +8,6 @@ use yii\base\Model;
 use app\models\Category;
 use app\models\Brand;
 
-const PRODUCT_STATUS_SELLING = 100;
-const PRODUCT_STATUS_SOLD = 200;
-const PRODUCT_STATUS_CHECKING = 300;
-const PRODUCT_STATUS_PAUSED = 400;
 
 class ProductAddForm extends Model
 {
@@ -69,8 +65,8 @@ class ProductAddForm extends Model
                 $product->color = $this->color;
                 $product->size = $this->size;
                 $product->constitution = $this->constitution;
-                $product->status = PRODUCT_STATUS_CHECKING;
-                $product->created_at = $date = time();
+                $product->status = Product::PRODUCT_STATUS_CHECKING;
+                $product->created_at = $date = date('Y-m-d H:i:s');
                 $product->updated_at = $date;
 
                 if ($product->save()){

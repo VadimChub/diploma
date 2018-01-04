@@ -67,14 +67,12 @@ class ProductController extends Controller
     public function actionCreate()
     {
         $model = new ProductAddForm();
-        $product = new Product();
         $brands = Brand::getBrands();
         $categories = Category::getCategories();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success','Your product was successfully sent to moderating');
-            //return $this->redirect(['view', 'id' => $product->id]);
-            return $this->redirect(['site/index']);
+            return $this->redirect(['product/index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -93,15 +91,21 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $brands = Brand::getBrands();
+        $categories = Category::getCategories();
+        $model->updated_at = date('Y-m-d H:i:s');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'brands' => $brands,
+                'categories' => $categories,
             ]);
         }
     }
+
 
     /**
      * Deletes an existing Product model.
@@ -131,4 +135,5 @@ class ProductController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }

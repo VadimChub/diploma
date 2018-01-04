@@ -19,14 +19,14 @@ class m171229_220739_create_product_table extends Migration
             'description' => $this->text(),
             'category_id' => $this->integer()->notNull(),
             'brand_id' =>$this->integer()->notNull(),
-            'price' => $this->integer(),
+            'price' => $this->decimal(),
             'size' => $this->string(7),
             'color' => $this->string(20),
             'constitution' => $this->string(),
             'views' => $this->integer()->defaultValue(0)->notNull(),
-            'status' => $this->integer(2),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'status' => $this->integer(3),
+            'created_at' => $this->dateTime()->notNull(),
+            'updated_at' => $this->dateTime()->notNull(),
         ]);
 
         // creates index for column `category_id`

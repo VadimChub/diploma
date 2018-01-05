@@ -2,11 +2,13 @@
 
 namespace app\models\forms;
 
+use app\models\Images;
 use app\models\Product;
 use Yii;
 use yii\base\Model;
 use app\models\Category;
 use app\models\Brand;
+use yii\web\UploadedFile;
 
 
 class ProductAddForm extends Model
@@ -20,6 +22,11 @@ class ProductAddForm extends Model
     public $size;
     public $color;
     public $constitution;
+    public $image_main;
+    public $image_side1;
+    public $image_side2;
+    public $image_brand;
+    public $product_id;
 
     /**
      * @return array
@@ -44,6 +51,9 @@ class ProductAddForm extends Model
             [['size'], 'string', 'max' => 7],
 
             [['color'], 'string', 'max' => 20],
+
+            [['image_main', 'image_side1', 'image_side2', 'image_brand'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
+
         ];
     }
 
@@ -52,8 +62,10 @@ class ProductAddForm extends Model
         if ($this->validate()){
 
             $product = new Product();
+            $images = new Images();
 
             $product_transaction = Product::getDb()->beginTransaction();
+            $images_transaction = Images::getDb()->beginTransaction();
             try {
 
                 $product->title = $this->title;
@@ -69,19 +81,38 @@ class ProductAddForm extends Model
                 $product->created_at = $date = date('Y-m-d H:i:s');
                 $product->updated_at = $date;
 
+                $images->image_main = Yii::getAlias('@images/'). $this->image_main->baseName . '.' . $this->image_main->extension;
+                $images->image_side1 = Yii::getAlias('@images/'). $this->image_side1->baseName . '.' . $this->image_side1->extension;
+                $images->image_side2 = Yii::getAlias('@images/'). $this->image_side2->baseName . '.' . $this->image_side2->extension;
+                $images->image_brand = Yii::getAlias('@images/'). $this->image_brand->baseName . '.' . $this->image_brand->extension;
+
                 if ($product->save()){
-                    $product_transaction->commit();
-                    return true;
+                    $images->product_id = $product->id;
+                    if ($images->save()){
+
+                        $this->image_main->saveAs(Yii::getAlias('@images/') . $this->image_main->baseName . '.' . $this->image_main->extension);
+                        $this->image_side1->saveAs(Yii::getAlias('@images/') . $this->image_side1->baseName . '.' . $this->image_side1->extension);
+                        $this->image_side2->saveAs(Yii::getAlias('@images/') . $this->image_side2->baseName . '.' . $this->image_side2->extension);
+                        $this->image_brand->saveAs(Yii::getAlias('@images/') . $this->image_brand->baseName . '.' . $this->image_brand->extension);
+
+                        $product_transaction->commit();
+                        $images_transaction->commit();
+
+                        return true;
+                    }
                 }
             } catch(\Exception $e) {
                 $product_transaction->rollBack();
+                $images_transaction->rollBack();
                 throw $e;
             } catch(\Throwable $e) {
                 $product_transaction->rollBack();
+                $images_transaction->rollBack();
                 throw $e;
             }
 
         }
+
         return false;
     }
 

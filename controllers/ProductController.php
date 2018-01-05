@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -64,15 +65,46 @@ class ProductController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+//    public function actionCreate()
+//    {
+//        $model = new ProductAddForm();
+//        $brands = Brand::getBrands();
+//        $categories = Category::getCategories();
+//
+//        if ( $model->load(Yii::$app->request->post()) && $model->save()) {
+//                Yii::$app->session->setFlash('success', 'Your product was successfully sent to moderating');
+//                return $this->redirect(['product/index']);
+//        } else {
+//            return $this->render('create', [
+//                'model' => $model,
+//                'brands' => $brands,
+//                'categories' => $categories,
+//            ]);
+//        }
+//    }
+
+    /**
+     * Creates a new Product model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return mixed
+     */
     public function actionCreate()
     {
         $model = new ProductAddForm();
         $brands = Brand::getBrands();
         $categories = Category::getCategories();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success','Your product was successfully sent to moderating');
-            return $this->redirect(['product/index']);
+        if ( $model->load(Yii::$app->request->post())) {
+
+            $model->image_main = UploadedFile::getInstance($model, 'image_main');
+            $model->image_side1 = UploadedFile::getInstance($model, 'image_side1');
+            $model->image_side2 = UploadedFile::getInstance($model, 'image_side2');
+            $model->image_brand = UploadedFile::getInstance($model, 'image_brand');
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Your product was successfully sent to moderating');
+                return $this->redirect(['product/index']);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,

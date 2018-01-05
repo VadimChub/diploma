@@ -16,8 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-create">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+<div class="row">
+    <div class="col-sm-3"> <?= $form->field($model, 'image_main')->fileInput() ?></div>
+    <div class="col-sm-3"> <?= $form->field($model, 'image_side1')->fileInput() ?></div>
+    <div class="col-sm-3"> <?= $form->field($model, 'image_side2')->fileInput() ?></div>
+    <div class="col-sm-3"> <?= $form->field($model, 'image_brand')->fileInput() ?></div>
+</div>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 

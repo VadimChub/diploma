@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\controllers\behaviors\AccessBehavior;
 use app\models\Brand;
 use app\models\forms\ProductAddForm;
 use Yii;
@@ -30,23 +31,10 @@ class ProductController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            AccessBehavior::className(),
         ];
     }
 
-    /**
-     * Lists all Product models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Product::find(),
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * Displays a single Product model.
@@ -60,28 +48,6 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Product model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-//    public function actionCreate()
-//    {
-//        $model = new ProductAddForm();
-//        $brands = Brand::getBrands();
-//        $categories = Category::getCategories();
-//
-//        if ( $model->load(Yii::$app->request->post()) && $model->save()) {
-//                Yii::$app->session->setFlash('success', 'Your product was successfully sent to moderating');
-//                return $this->redirect(['product/index']);
-//        } else {
-//            return $this->render('create', [
-//                'model' => $model,
-//                'brands' => $brands,
-//                'categories' => $categories,
-//            ]);
-//        }
-//    }
 
     /**
      * Creates a new Product model.
@@ -103,7 +69,7 @@ class ProductController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Your product was successfully sent to moderating');
-                return $this->redirect(['product/index']);
+                return $this->redirect(['user/index']);
             }
         } else {
             return $this->render('create', [
@@ -167,5 +133,6 @@ class ProductController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 
 }

@@ -11,7 +11,7 @@ use kartik\color\ColorInput;
 /* @var $categories array */
 
 $this->title = 'Create Product';
-$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-create">

@@ -73,6 +73,7 @@ class ProductAddForm extends Model
                 $product->description = $this->description;
                 $product->category_id = $this->category;
                 $product->brand_id = $this->brand;
+                $product->owner_id = Yii::$app->user->identity->getId();
                 $product->price = $this->price;
                 $product->color = $this->color;
                 $product->size = $this->size;

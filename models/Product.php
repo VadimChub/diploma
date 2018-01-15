@@ -14,6 +14,7 @@ use Yii;
  * @property string $description
  * @property integer $category_id
  * @property integer $brand_id
+ * @property integer $owner_id
  * @property integer $price
  * @property string $size
  * @property string $color
@@ -81,6 +82,7 @@ class Product extends \yii\db\ActiveRecord
             'description' => 'Description',
             'category_id' => 'Category ID',
             'brand_id' => 'Brand ID',
+            'owner_id' => 'Owner ID',
             'price' => 'Price',
             'size' => 'Size',
             'color' => 'Color',
@@ -108,6 +110,32 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'category_id'])->one();
     }
+
+    /**
+     * @return \yii\db\ActiveQuery|array
+     */
+    public function getOwner()
+    {
+        return $this->hasOne(User::className(), ['id' => 'owner_id'])->one();
+    }
+
+    /**
+     * @param $status integer constant of Product model
+     * @return int|string
+     */
+    public static function countProductsByStatus($status)
+    {
+       return self::find()->where(['owner_id' => Yii::$app->user->identity->getId(), 'status' => $status])->count();
+    }
+
+    /**
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public function getImages()
+    {
+        return $this->hasOne(Images::className(), ['product_id' => 'id'])->one();
+    }
+
 
 
 }

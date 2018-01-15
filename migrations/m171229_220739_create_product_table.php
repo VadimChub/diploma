@@ -19,6 +19,7 @@ class m171229_220739_create_product_table extends Migration
             'description' => $this->text(),
             'category_id' => $this->integer()->notNull(),
             'brand_id' =>$this->integer()->notNull(),
+            'owner_id' =>$this->integer()->notNull(),
             'price' => $this->decimal(),
             'size' => $this->string(7),
             'color' => $this->string(20),
@@ -62,6 +63,23 @@ class m171229_220739_create_product_table extends Migration
             'id',
             'CASCADE'
         );
+
+        // creates index for column `owner_id`
+        $this->createIndex(
+            'idx-product-owner_id',
+            'product',
+            'owner_id'
+        );
+
+        // add foreign key for table `user`
+        $this->addForeignKey(
+            'fk-product-owner_id',
+            'product',
+            'owner_id',
+            'user',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -90,6 +108,18 @@ class m171229_220739_create_product_table extends Migration
         // drops index for column `brand_id`
         $this->dropIndex(
             'idx-product-brand_id',
+            'product'
+        );
+
+        // drops foreign key for table `user`
+        $this->dropForeignKey(
+            'fk-product-owner_id',
+            'product'
+        );
+
+        // drops index for column `owner_id`
+        $this->dropIndex(
+            'idx-product-owner_id',
             'product'
         );
 

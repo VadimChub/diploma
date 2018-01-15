@@ -44,6 +44,19 @@ class m180105_105942_create_images_table extends Migration
      */
     public function down()
     {
+        // drops foreign key for table `product`
+        $this->dropForeignKey(
+            'fk-images-product_id',
+            'images'
+        );
+
+        // drops index for column `product_id`
+        $this->dropIndex(
+            'idx-images-product_id',
+            'images'
+        );
+
+
         $this->dropTable('images');
     }
 }

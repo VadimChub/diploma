@@ -6,6 +6,6 @@ a:hover { display: block; height: 100%; color: white; text-decoration: none;}
 
 .product-block-title{position: absolute; margin-left: 20%;}
 .product-block-desc {position: absolute; top: 20%; margin-left: 5%; margin-right: 5%;}
-.product-block-price {position: absolute; bottom: 30%; margin-left: 10%}
-.product-block-brand {position: absolute; bottom: 0; left: 0; margin-left: 5%; margin-bottom: 15%}
-.product-block-size {position: absolute; bottom: 0; right: 0; margin-right: 10%; margin-bottom: 3%; border: 1px solid white; padding: 5px;}
+.product-block-brand {position: absolute; bottom: 20%; left: 0; margin-left: 5%;}
+.product-block-price {position: absolute; bottom: 0; margin-left: 10%; color: #00d6b2; margin-bottom: 5%}
+.product-block-size {position: absolute; bottom: 0; right: 0; margin-right: 10%; margin-bottom: 5%; border: 1px solid white; padding: 5px;}

@@ -19,7 +19,7 @@ class m180107_204626_create_messages_table extends Migration
             'receiver' => $this->integer()->notNull(),
             'dialog_id' => $this->integer()->notNull(),
             'created_at' => $this->dateTime(),
-            'status' => $this->string(),
+            'status' => $this->integer(3),
             'is_deleted_sender' => $this->integer()->defaultValue(0),
             'is_deleted_receiver' => $this->integer()->defaultValue(0),
         ]);

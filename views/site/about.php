@@ -11,7 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= \app\widgets\productBlock\ProductBlock::widget(); ?>
+
     </p>
 
     <code><?= __FILE__ ?></code>

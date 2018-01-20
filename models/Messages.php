@@ -26,6 +26,9 @@ class Messages extends \yii\db\ActiveRecord
     const MESSAGE_STATUS_UNREADED = 100;
     const MESSAGE_STATUS_READED = 200;
 
+    const MESSAGE_STATUS_OKAY = 300;
+    const MESSAGE_STATUS_DELETED = 400;
+
     /**
      * @inheritdoc
      */
@@ -42,9 +45,8 @@ class Messages extends \yii\db\ActiveRecord
         return [
             [['message'], 'string'],
             [['sender', 'receiver', 'dialog_id'], 'required'],
-            [['sender', 'receiver', 'dialog_id', 'is_deleted_sender', 'is_deleted_receiver'], 'integer'],
+            [['sender', 'receiver', 'dialog_id', 'is_deleted_sender', 'is_deleted_receiver', 'status'], 'integer'],
             [['created_at'], 'safe'],
-            [['status'], 'string', 'max' => 255],
             [['dialog_id'], 'exist', 'skipOnError' => true, 'targetClass' => Dialogs::className(), 'targetAttribute' => ['dialog_id' => 'id']],
             [['receiver'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['receiver' => 'id']],
             [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],

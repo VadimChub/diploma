@@ -8,7 +8,8 @@ use Yii;
 use yii\base\Model;
 use app\models\Category;
 use app\models\Brand;
-use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 
 
 class ProductAddForm extends Model
@@ -82,19 +83,31 @@ class ProductAddForm extends Model
                 $product->created_at = $date = date('Y-m-d H:i:s');
                 $product->updated_at = $date;
 
-                $images->image_main = Yii::getAlias('@images/'). $this->image_main->baseName . '.' . $this->image_main->extension;
-                $images->image_side1 = Yii::getAlias('@images/'). $this->image_side1->baseName . '.' . $this->image_side1->extension;
-                $images->image_side2 = Yii::getAlias('@images/'). $this->image_side2->baseName . '.' . $this->image_side2->extension;
-                $images->image_brand = Yii::getAlias('@images/'). $this->image_brand->baseName . '.' . $this->image_brand->extension;
+                //different times if user will upload the same image to avoid equal hash
+                $time1 = time();
+                $time2 = $time1+1;
+                $time3 = $time2+1;
+                $time4 = $time3+1;
+
+                $images->image_main =   md5($this->image_main->baseName.$time1) . '.' . $this->image_main->extension;
+                $images->image_side1 =  md5($this->image_side1->baseName.$time2) . '.' . $this->image_side1->extension;
+                $images->image_side2 =  md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension;
+                $images->image_brand =  md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension;
 
                 if ($product->save()){
                     $images->product_id = $product->id;
                     if ($images->save()){
 
-                        $this->image_main->saveAs(Yii::getAlias('@images/') . $this->image_main->baseName . '.' . $this->image_main->extension);
-                        $this->image_side1->saveAs(Yii::getAlias('@images/') . $this->image_side1->baseName . '.' . $this->image_side1->extension);
-                        $this->image_side2->saveAs(Yii::getAlias('@images/') . $this->image_side2->baseName . '.' . $this->image_side2->extension);
-                        $this->image_brand->saveAs(Yii::getAlias('@images/') . $this->image_brand->baseName . '.' . $this->image_brand->extension);
+                        $this->image_main->saveAs(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension);
+                        $this->image_side1->saveAs(Yii::getAlias('@images/') . md5($this->image_side1->baseName.$time2) . '.' . $this->image_side1->extension);
+                        $this->image_side2->saveAs(Yii::getAlias('@images/') . md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension);
+                        $this->image_brand->saveAs(Yii::getAlias('@images/') . md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension);
+
+                        Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension, 200, 300)
+                            ->resize(new Box(200,300))
+                            ->save(Yii::getAlias('@images').'/thumbnail-200x300/' . md5($this->image_main->baseName.$time1) . '.' . $this->image_main->extension,
+                                ['quality' => 70]);
+
 
                         $product_transaction->commit();
                         $images_transaction->commit();

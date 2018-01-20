@@ -65,7 +65,7 @@ class UserController extends \yii\web\Controller
         }
 
         $dataProvider = new ActiveDataProvider([
-            'query' => Product::find(),
+            'query' => Product::find()->where(['owner_id' => Yii::$app->user->getId()]),
             'pagination' => [
                 'pageSize' => 10,
             ],

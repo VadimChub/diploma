@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\controllers\behaviors\AccessBehavior;
 use app\models\Brand;
 use app\models\forms\ProductAddForm;
+use app\models\Images;
 use Yii;
 use app\models\Product;
 use app\models\Category;
@@ -113,10 +114,12 @@ class ProductController extends Controller
      */
     public function actionDelete($id)
     {
+        Images::deleteImageFilesByProductId($id);
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['user/index']);
     }
+
 
     /**
      * Finds the Product model based on its primary key value.
@@ -133,6 +136,8 @@ class ProductController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
 
 
 }

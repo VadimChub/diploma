@@ -95,4 +95,36 @@ class Dialogs extends \yii\db\ActiveRecord
             ->orWhere(['second_user_id' => $user_id, 'status' => self::DIALOG_STATUS_DELETED_BY_FIRST_USER])->asArray()->all();
     }
 
+    /**
+     * @param $first_id integer
+     * @param $second_id integer
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getUsersDialog($first_id, $second_id)
+    {
+        return self::find()->where(['first_user_id' => $first_id, 'second_user_id' => $second_id])
+            ->orWhere(['first_user_id' => $second_id, 'second_user_id' => $first_id])->asArray()->one();
+    }
+
+    /**
+     * @param $first_user integer
+     * @param $second_user integer
+     * @param $message string
+     * @return bool
+     */
+    public static function createNewDialog($first_user, $second_user, $message)
+    {
+        $dialog = new Dialogs();
+        $dialog->first_user_id = $first_user;
+        $dialog->second_user_id = $second_user;
+        $dialog->last_message = $message;
+        $dialog->status = $dialog::DIALOG_STATUS_OKAY;
+
+        if ($dialog->validate()){
+            return $dialog->save();
+        }
+
+        return false;
+    }
+
 }

@@ -49,5 +49,18 @@ class Images extends \yii\db\ActiveRecord
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
 
+    /**
+     * @param $id integer
+     * this method delete all images files by product id
+     */
+    public static function deleteImageFilesByProductId($id)
+    {
+         $array  = self::find()->select(['image_main', 'image_side1', 'image_side2', 'image_brand'])->where(['product_id' => $id])->asArray()->one();
+        foreach ($array as $value) {
+            unlink(Yii::getAlias('@images/') . $value);
+        }
+        unlink(Yii::getAlias('@images'.'/thumbnail-200x300/') . $array['image_main']);
+    }
+
 
 }

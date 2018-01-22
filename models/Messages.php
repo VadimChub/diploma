@@ -43,7 +43,8 @@ class Messages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['message'], 'string'],
+            [['message'], 'required'],
+            ['message', 'string', 'length' => [1]],
             [['sender', 'receiver', 'dialog_id'], 'required'],
             [['sender', 'receiver', 'dialog_id', 'is_deleted_sender', 'is_deleted_receiver', 'status'], 'integer'],
             [['created_at'], 'safe'],

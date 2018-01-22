@@ -90,6 +90,10 @@ class SiteController extends Controller
     public function actionProduct($id)
     {
         $model = $this->findProductModel($id);
+        $views = $model->views;
+        $model->views = ++$views;
+        $model->save();
+
         Yii::$app->response->cookies->add(new \yii\web\Cookie([
             'name' => 'receiver',
             'value' => $model->owner_id,

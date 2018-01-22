@@ -54,7 +54,7 @@ class Product extends \yii\db\ActiveRecord
             [['title', 'short_description', 'constitution'], 'string', 'max' => 255],
 
             [['brand_id', 'category_id'], 'required'],
-            [['brand_id', 'category_id'], 'string', 'max' => 255],
+            [['brand_id', 'category_id'], 'integer'],
             [['brand_id'], 'unique', 'targetClass' => Brand::className(), 'targetAttribute' => 'name'],
             [['category_id'], 'unique', 'targetClass' => Category::className(), 'targetAttribute' => 'name'],
 

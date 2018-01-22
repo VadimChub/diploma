@@ -113,9 +113,13 @@ class UserController extends \yii\web\Controller
             $model->is_deleted_sender = $model::MESSAGE_STATUS_OKAY;
             $model->is_deleted_receiver = $model::MESSAGE_STATUS_OKAY;
 
-            if($model->validate()){
-                $model->save();
-                $model = new Messages();
+            if ($model->validate() && $model->save()) {
+
+                    $dialog = Dialogs::findOne($id);
+                    $dialog->last_message = $model->message;
+                    $dialog->save();
+
+                    $model = new Messages();
             }
         }
 

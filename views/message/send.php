@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 ?>
 
-<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+<?php $form = ActiveForm::begin(); ?>
 
 <?= $form->field($model, 'message')->textarea(['rows' => 5]) ?>
 

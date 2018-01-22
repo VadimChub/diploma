@@ -1,0 +1,6 @@
+.messages-block {min-height: 500px; height: 100%; }
+.conversation {min-height: 300px; max-height: 500px; overflow: scroll; height: auto; }
+.sender-message {width: 90%; margin-left: auto; text-align: right; position: relative}
+.receiver-message {width: 90%; position: relative}
+.message-time-sender {font-size: small; position: absolute; top: 0; right: 3%;}
+.message-time-receiver {font-size: small; position: absolute; top: 0;}

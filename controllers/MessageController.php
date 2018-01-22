@@ -29,8 +29,6 @@ class MessageController extends \yii\web\Controller
             $model->status = $model::MESSAGE_STATUS_UNREADED;
             $model->is_deleted_sender = $model::MESSAGE_STATUS_OKAY;
             $model->is_deleted_receiver = $model::MESSAGE_STATUS_OKAY;
-
-            if(!$model->save()){ var_dump($model->getErrors()); die;}
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

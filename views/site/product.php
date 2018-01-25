@@ -3,6 +3,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
+/* @var $images array */
 
 \app\assets\ProductPageAsset::register($this);
 
@@ -10,6 +11,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 
 use yii\bootstrap\Modal;
+use slavkovrn\imagegalary\ImageGalaryWidget;
 ?>
 
 <div class="main-container">
@@ -18,7 +20,34 @@ use yii\bootstrap\Modal;
 
             <div class="col-sm-5">
                 <div class="gallery">
-                    <h1>Here will be an image gallery</h1>
+                    <?= ImageGalaryWidget::widget([
+                        'id' =>'imagegalary',       // id of plugin should be unique at page
+                        'class' =>'imagegalary',    // class of div to define style
+                        'css' => 'border:black;',   // css commands of class (for example - border-radius:5px;)
+                        'image_width' => 220,       // height of image visible in pixels
+                        'image_height' => 340,      // width of image visible in pixels
+                        'thumb_width' => 40,        // height of thumb images in pixels
+                        'thumb_height' => 80,       // width of thumb images in pixels
+                        'items' => 4,               // number of thumb items
+                        'images' => [               // images of galary
+                            [
+                                'src' => Yii::getAlias('@web/images/').$images['image_main'],
+                                'title' => 'Image visible in widget',
+                            ],
+                            [
+                                'src' => Yii::getAlias('@web/images/').$images['image_side1'],
+                                'title' => 'image 1',
+                            ],
+                            [
+                                'src' => Yii::getAlias('@web/images/').$images['image_side2'],
+                                'title' => 'image 2',
+                            ],
+                            [
+                                'src' => Yii::getAlias('@web/images/').$images['image_brand'],
+                                'title' => 'image 3',
+                            ],
+                        ]
+                    ]) ?>
                 </div>
             </div>
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "images".
@@ -60,6 +61,15 @@ class Images extends \yii\db\ActiveRecord
             unlink(Yii::getAlias('@images/') . $value);
         }
         unlink(Yii::getAlias('@images'.'/thumbnail-200x300/') . $array['image_main']);
+    }
+
+    /**
+     * @param $product_id
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getImagesByProduct($product_id)
+    {
+        return self::find()->where(['product_id' => $product_id])->asArray()->one();
     }
 
 

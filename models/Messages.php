@@ -104,4 +104,36 @@ class Messages extends \yii\db\ActiveRecord
     {
         return self::find()->where(['dialog_id' => $dialog_id, 'status' => self::MESSAGE_STATUS_UNREADED, 'receiver' => Yii::$app->user->identity->getId()])->count();
     }
+
+    /**
+     * @param $model Messages
+     * @param $dialog_id integer
+     */
+    public static function saveMessage($model, $dialog_id)
+    {
+        $model->sender = intval($model->sender);
+        $model->receiver = intval($model->receiver);
+        $model->dialog_id = $dialog_id;
+        $model->created_at = date('Y-m-d H:i:s');
+        $model->status = $model::MESSAGE_STATUS_UNREADED;
+        $model->is_deleted_sender = $model::MESSAGE_STATUS_OKAY;
+        $model->is_deleted_receiver = $model::MESSAGE_STATUS_OKAY;
+
+        if ($model->validate() && $model->save()) {
+
+            $dialog = Dialogs::findOne($dialog_id);
+            $dialog->last_message = $model->message;
+            $dialog->save();
+        }
+    }
+
+    /**
+     * @param $dialog_id integer
+     * @param $receiver integer
+     */
+    public static function updateUnreadMessageStatus($dialog_id, $receiver)
+    {
+        self::updateAll(['status' => self::MESSAGE_STATUS_READED],
+            ['status' => self::MESSAGE_STATUS_UNREADED, 'receiver' => $receiver, 'dialog_id' => $dialog_id]);
+    }
 }

@@ -105,22 +105,10 @@ class UserController extends \yii\web\Controller
 
         if ($model->load(Yii::$app->request->post())){
 
-            $model->sender = intval($model->sender);
-            $model->receiver = intval($model->receiver);
-            $model->dialog_id = $id;
-            $model->created_at = date('Y-m-d H:i:s');
-            $model->status = $model::MESSAGE_STATUS_UNREADED;
-            $model->is_deleted_sender = $model::MESSAGE_STATUS_OKAY;
-            $model->is_deleted_receiver = $model::MESSAGE_STATUS_OKAY;
-
-            if ($model->validate() && $model->save()) {
-
-                    $dialog = Dialogs::findOne($id);
-                    $dialog->last_message = $model->message;
-                    $dialog->save();
-
+                if (Messages::saveMessage($model, $id)) {
                     $model = new Messages();
-            }
+                }
+
         }
 
         $messages = Messages::find()->where(['dialog_id' => $id])->orderBy('created_at')->asArray()->all();
@@ -129,6 +117,8 @@ class UserController extends \yii\web\Controller
         if ($messages) {
             $sender_id = ($messages[0]['sender'] == $my_id) ? $messages[0]['receiver'] : $messages[0]['sender'];
             $sender = User::findIdentity($sender_id);
+
+            Messages::updateUnreadMessageStatus($id, $my_id);
 
             return $this->render('dialog', [
                 'messages' => $messages,

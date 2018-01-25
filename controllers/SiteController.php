@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Images;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -94,12 +95,15 @@ class SiteController extends Controller
         $model->views = ++$views;
         $model->save();
 
+        $images = Images::getImagesByProduct($id);
+
         Yii::$app->response->cookies->add(new \yii\web\Cookie([
             'name' => 'receiver',
             'value' => $model->owner_id,
         ]));
         return $this->render('product', [
             'model' => $model,
+            'images' => $images,
         ]);
     }
 

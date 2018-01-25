@@ -10,6 +10,7 @@ use Yii;
 use app\models\Product;
 use app\models\Category;
 use yii\data\ActiveDataProvider;
+use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -122,15 +123,13 @@ class ProductController extends Controller
 
 
     /**
-     * Finds the Product model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Product the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @param $id
+     * @return Product|ActiveRecord
+     * @throws NotFoundHttpException
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Product::find()->where(['id' => $id, 'owner_id' => Yii::$app->user->getId()])->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

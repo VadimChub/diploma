@@ -103,6 +103,27 @@ class ProductAddForm extends Model
                         $this->image_side2->saveAs(Yii::getAlias('@images/') . md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension);
                         $this->image_brand->saveAs(Yii::getAlias('@images/') . md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension);
 
+                        Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension, 960, 1280)
+                            ->resize(new Box(960, 1280))
+                            ->save(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension, ['quality' => 100]);
+                        //unlink(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension);
+
+                        Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_side1->baseName.$time2) . '.' . $this->image_side1->extension, 960, 1280)
+                            ->resize(new Box(960, 1280))
+                            ->save(Yii::getAlias('@images/') . md5($this->image_side1->baseName.$time2) . '.' . $this->image_side1->extension, ['quality' => 100]);
+                        //unlink(Yii::getAlias('@images/') . md5($this->image_side1->baseName.$time2) . '.' . $this->image_side1->extension);
+
+                        Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension, 960, 1280)
+                            ->resize(new Box(960, 1280))
+                            ->save(Yii::getAlias('@images/') . md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension, ['quality' => 100]);
+                        //unlink(Yii::getAlias('@images/') . md5($this->image_side2->baseName.$time3) . '.' . $this->image_side2->extension);
+
+                        Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension, 960, 1280)
+                            ->resize(new Box(960, 1280))
+                            ->save(Yii::getAlias('@images/') . md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension, ['quality' => 100]);
+                        //unlink(Yii::getAlias('@images/') . md5($this->image_brand->baseName.$time4) . '.' . $this->image_brand->extension);
+
+                        //Creating thumbnail of main image
                         Image::thumbnail(Yii::getAlias('@images/') . md5($this->image_main->baseName.$time1). '.' . $this->image_main->extension, 200, 300)
                             ->resize(new Box(200,300))
                             ->save(Yii::getAlias('@images').'/thumbnail-200x300/' . md5($this->image_main->baseName.$time1) . '.' . $this->image_main->extension,

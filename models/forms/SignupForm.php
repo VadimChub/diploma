@@ -51,8 +51,8 @@ class SignupForm extends Model
             $user = new User();
             $user->username = $this->username;
             $user->email = $this->email;
-            $user->created_at = $time = time();
-            $user->updated_at = $time;
+            $user->created_at = $date = date('Y-m-d H:i:s');
+            $user->updated_at = $date;
             $user->auth_key = Yii::$app->security->generateRandomString();
             $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
 

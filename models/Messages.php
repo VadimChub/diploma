@@ -100,9 +100,18 @@ class Messages extends \yii\db\ActiveRecord
      * @param $dialog_id
      * @return int|string
      */
-    public static function getNumberOfUserUnreadMessages($dialog_id)
+    public static function getNumberOfUserUnreadMessagesInDialog($dialog_id)
     {
         return self::find()->where(['dialog_id' => $dialog_id, 'status' => self::MESSAGE_STATUS_UNREADED, 'receiver' => Yii::$app->user->identity->getId()])->count();
+    }
+
+    /**
+     * @param $used_id integer
+     * @return int|string
+     */
+    public static function getNumberOfAllUserUnreadedMessages($used_id)
+    {
+        return self::find()->where(['status' => self::MESSAGE_STATUS_UNREADED, 'receiver' => Yii::$app->user->identity->getId()])->count();
     }
 
     /**

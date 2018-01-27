@@ -15,6 +15,11 @@ class MessageController extends \yii\web\Controller
 
         if ($model->load(Yii::$app->request->post())){
 
+            if ($model->sender == $model->receiver){
+                Yii::$app->session->setFlash('danger',"You can't write to yourself");
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+
             if ($dialog_info = Dialogs::getUsersDialog($model->sender, $model->receiver)){
                 $dialog_id = $dialog_info['id'];
             } else {

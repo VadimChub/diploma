@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Images;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -97,6 +98,8 @@ class SiteController extends Controller
 
         $images = Images::getImagesByProduct($id);
 
+        $owner = User::findOne($model->owner_id);
+
         Yii::$app->response->cookies->add(new \yii\web\Cookie([
             'name' => 'receiver',
             'value' => $model->owner_id,
@@ -104,6 +107,7 @@ class SiteController extends Controller
         return $this->render('product', [
             'model' => $model,
             'images' => $images,
+            'owner' => $owner,
         ]);
     }
 

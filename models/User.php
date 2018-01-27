@@ -29,6 +29,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
 
+
     /**
      * @inheritdoc
      */

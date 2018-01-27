@@ -10,6 +10,7 @@ use Yii;
 use app\models\forms\SignupForm;
 use yii\data\ActiveDataProvider;
 use app\models\Product;
+use yii\helpers\Url;
 
 class UserController extends \yii\web\Controller
 {
@@ -21,14 +22,22 @@ class UserController extends \yii\web\Controller
     {
         $model = new LoginForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->login()){
-            return $this->redirect(['site/index']);
+        if (Yii::$app->request->isAjax) {
+            return $this->renderAjax('login', [
+                'model' => $model,
+            ]);
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+           $url =  (Yii::$app->request->referrer == Url::to(['user/login'], true)) ? Url::to(['site/index']) : Yii::$app->request->referrer;
+            return $this->redirect($url);
         }
 
         return $this->render('login', [
             'model' => $model,
         ]);
     }
+
 
     /**
      * @return string|\yii\web\Response
@@ -104,11 +113,8 @@ class UserController extends \yii\web\Controller
         $model = new Messages();
 
         if ($model->load(Yii::$app->request->post())){
-
-                if (Messages::saveMessage($model, $id)) {
-                    $model = new Messages();
-                }
-
+                Messages::saveMessage($model, $id);
+                $model = new Messages();
         }
 
         $messages = Messages::find()->where(['dialog_id' => $id])->orderBy('created_at')->asArray()->all();
@@ -134,6 +140,41 @@ class UserController extends \yii\web\Controller
 
     }
 
+    /**
+     * @param $user_id integer
+     * @return string|\yii\web\Response
+     */
+    public function actionEmailUpdate($user_id)
+    {
+        // This checking code needs optimisation
+        if (Yii::$app->user->isGuest){
+            return Yii::$app->controller->redirect(['site/index']);
+        }
+
+        $model = User::findOne($user_id);
+
+        return $this->renderAjax('email-update',[
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $user_id integer
+     * @return string|\yii\web\Response
+     */
+    public function actionPasswordUpdate($user_id)
+    {
+        // This checking code needs optimisation
+        if (Yii::$app->user->isGuest){
+            return Yii::$app->controller->redirect(['site/index']);
+        }
+
+        $model = User::findOne($user_id);
+
+        return $this->renderAjax('password-update',[
+            'model' => $model,
+        ]);
+    }
 
 
 }

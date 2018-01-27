@@ -4,6 +4,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 /* @var $images array */
+/* @var $owner app\models\User */
 
 \app\assets\ProductPageAsset::register($this);
 
@@ -23,12 +24,12 @@ use slavkovrn\imagegalary\ImageGalaryWidget;
                     <?= ImageGalaryWidget::widget([
                         'id' =>'imagegalary',       // id of plugin should be unique at page
                         'class' =>'imagegalary',    // class of div to define style
-                        'css' => 'border:black;',   // css commands of class (for example - border-radius:5px;)
-                        'image_width' => 220,       // height of image visible in pixels
-                        'image_height' => 340,      // width of image visible in pixels
-                        'thumb_width' => 40,        // height of thumb images in pixels
+                        'css' => 'border:white;',   // css commands of class (for example - border-radius:5px;)
+                        'image_width' => 300,       // height of image visible in pixels
+                        'image_height' => 400,      // width of image visible in pixels
+                        'thumb_width' => 60,        // height of thumb images in pixels
                         'thumb_height' => 80,       // width of thumb images in pixels
-                        'items' => 4,               // number of thumb items
+                        'items' => 3,               // number of thumb items
                         'images' => [               // images of galary
                             [
                                 'src' => Yii::getAlias('@web/images/').$images['image_main'],
@@ -87,7 +88,7 @@ use slavkovrn\imagegalary\ImageGalaryWidget;
                     <?php
 
                     Modal::begin([
-                        'header' => '<h4>Contact to seller</h4>',
+                        'header' => (Yii::$app->user->isGuest) ? '<h4>Please login</h4>' : '<h4>Contact to seller</h4>',
                         'id'     => 'model',
                         'size'   => 'model-lg',
                     ]);
@@ -99,10 +100,15 @@ use slavkovrn\imagegalary\ImageGalaryWidget;
                     ?>
 
                     <div class="product-want-button">
+                        <?php if (Yii::$app->user->isGuest) : ?>
+                            <?= Html::button('I want', ['class' => 'want-button btn btn-danger', 'id' => 'modelButton', 'value' => \yii\helpers\Url::to(['user/login'])]) ?>
+                        <?php else : ?>
                         <?= Html::button('I want', ['class' => 'want-button btn btn-danger', 'id' => 'modelButton', 'value' => \yii\helpers\Url::to(['message/send'])]) ?>
+                        <?php endif; ?>
                     </div>
                     <div class="product-owner-info">
-                        <h4>Here will be text about owner</h4>
+                        <h4><?php echo $owner->username; ?></h4>
+                       <div class="user-registration-info"><h6><?php echo "Registration: ". $owner->created_at; ?></h6></div>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ AppAsset::register($this);
             ['label' => 'How it works?', 'url' => ['/site/about']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
             Yii::$app->user->isGuest ? (['label' => 'Register', 'url' => ['/user/signup']])
-                : (['label' => 'Profile', 'url' => ['/user/index']]),
+                : (['label' => 'Profile'.((\app\models\Messages::getNumberOfAllUserUnreadedMessages(Yii::$app->user->getId()) > 0)? " ".\app\models\Messages::getNumberOfAllUserUnreadedMessages(Yii::$app->user->getId()) : '' ), 'url' => ['/user/index']]),
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/user/login']]
             ) : (

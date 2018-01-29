@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use slavkovrn\imagegalary\ImageGalaryWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
@@ -25,24 +26,58 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'short_description',
-            'description:ntext',
-            //'brand_id',
-            //'category_id',
-            'price',
-            'size',
-            'color',
-            'constitution',
-            'views',
-            'status',
-            'created_at',
-            'updated_at',
-        ],
-    ]) ?>
+    <div class="row">
+        <div class="col-sm-7">
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    //'id',
+                    'title',
+                    'short_description',
+                    'description:ntext',
+                    //'brand_id',
+                    //'category_id',
+                    'price',
+                    'size',
+                    //'color',
+                    'constitution',
+                    'views',
+                    'status',
+                    'created_at',
+                    'updated_at',
+                ],
+            ]) ?>
+        </div>
+        <div class="col-sm-5">
+            <?= ImageGalaryWidget::widget([
+                'id' =>'imagegalary',       // id of plugin should be unique at page
+                'class' =>'imagegalary',    // class of div to define style
+                'css' => 'border:white;',   // css commands of class (for example - border-radius:5px;)
+                'image_width' => 300,       // height of image visible in pixels
+                'image_height' => 400,      // width of image visible in pixels
+                'thumb_width' => 60,        // height of thumb images in pixels
+                'thumb_height' => 80,       // width of thumb images in pixels
+                'items' => 3,               // number of thumb items
+                'images' => [               // images of galary
+                    [
+                        'src' => Yii::getAlias('@web/images/').$images['image_main'],
+                        'title' => 'Image visible in widget',
+                    ],
+                    [
+                        'src' => Yii::getAlias('@web/images/').$images['image_side1'],
+                        'title' => 'image 1',
+                    ],
+                    [
+                        'src' => Yii::getAlias('@web/images/').$images['image_side2'],
+                        'title' => 'image 2',
+                    ],
+                    [
+                        'src' => Yii::getAlias('@web/images/').$images['image_brand'],
+                        'title' => 'image 3',
+                    ],
+                ]
+            ]) ?>
+        </div>
+    </div>
 
 </div>

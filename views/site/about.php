@@ -10,9 +10,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <h1> Here will be instruction about using this web site. But later :)</h1>
+    <hr>
 
-    </p>
-
-    <code><?= __FILE__ ?></code>
 </div>

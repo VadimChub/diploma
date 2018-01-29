@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Dialogs;
 use app\models\forms\LoginForm;
+use app\models\forms\PasswordChangeForm;
 use app\models\Messages;
 use app\models\User;
 use Yii;
@@ -153,6 +154,10 @@ class UserController extends \yii\web\Controller
 
         $model = User::findOne($user_id);
 
+        if ($model->load(Yii::$app->request->post()) && $model->save()){
+           return $this->redirect(Yii::$app->request->referrer);
+        }
+
         return $this->renderAjax('email-update',[
             'model' => $model,
         ]);
@@ -165,13 +170,17 @@ class UserController extends \yii\web\Controller
     public function actionPasswordUpdate($user_id)
     {
         // This checking code needs optimisation
-        if (Yii::$app->user->isGuest){
+        if (Yii::$app->user->isGuest) {
             return Yii::$app->controller->redirect(['site/index']);
         }
 
-        $model = User::findOne($user_id);
+        $model = new PasswordChangeForm();
 
-        return $this->renderAjax('password-update',[
+        if ($model->load(Yii::$app->request->post()) && $model->changePassword($user_id)) {
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+
+        return $this->renderAjax('password-update', [
             'model' => $model,
         ]);
     }

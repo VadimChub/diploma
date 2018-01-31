@@ -3,24 +3,36 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\color\ColorInput;
+use app\assets\ProductUpdateAsset;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\forms\ProductAddForm */
 /* @var $data app\models\Product */
 /* @var $brands array */
 /* @var $categories array */
+/* @var $images app\models\Images */
 
 
 $this->title = 'Update Product: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['user/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
+
+ProductUpdateAsset::register($this);
+
 ?>
 <div class="product-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+    <div class="row">
+        <div class="col-sm-3"> <img id="blah1" src="<?= Yii::getAlias('@web/images/').$images->image_main?>" height="380" width="285"><?= $form->field($images, 'image_main')->fileInput() ?></div>
+        <div class="col-sm-3"> <img id="blah2" src="<?= Yii::getAlias('@web/images/').$images->image_side1?>" height="380" width="285"> <?= $form->field($images, 'image_side1')->fileInput() ?></div>
+        <div class="col-sm-3">  <img id="blah3" src="<?= Yii::getAlias('@web/images/').$images->image_side2?>" height="380" width="285"><?= $form->field($images, 'image_side2')->fileInput() ?></div>
+        <div class="col-sm-3">  <img id="blah4" src="<?= Yii::getAlias('@web/images/').$images->image_brand?>" height="380" width="285"><?= $form->field($images, 'image_brand')->fileInput() ?></div>
+    </div>
 
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

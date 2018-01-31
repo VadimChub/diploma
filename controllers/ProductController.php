@@ -94,17 +94,27 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $images = Images::findOne(['product_id' => $id]);
         $brands = Brand::getBrands();
         $categories = Category::getCategories();
         $model->updated_at = date('Y-m-d H:i:s');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
+        if ($model->load(Yii::$app->request->post())){
+            $images->image_main = UploadedFile::getInstance($images, 'image_main');
+            $images->image_side1 = UploadedFile::getInstance($images, 'image_side1');
+            $images->image_side2 = UploadedFile::getInstance($images, 'image_side2');
+            $images->image_brand = UploadedFile::getInstance($images, 'image_brand');
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $images->imagesUpdate($images);
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
                 'brands' => $brands,
                 'categories' => $categories,
+                'images' => $images,
             ]);
         }
     }

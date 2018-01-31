@@ -3,12 +3,15 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\color\ColorInput;
+use app\assets\ProductUpdateAsset;
 
 
 /* @var $this yii\web\View */
 /* @var $model app\models\forms\ProductAddForm */
 /* @var $brands array */
 /* @var $categories array */
+
+\app\assets\ProductAddAsset::register($this);
 
 $this->title = 'Create Product';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['user/index']];
@@ -19,10 +22,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
 <div class="row">
-    <div class="col-sm-3"> <?= $form->field($model, 'image_main')->fileInput() ?></div>
-    <div class="col-sm-3"> <?= $form->field($model, 'image_side1')->fileInput() ?></div>
-    <div class="col-sm-3"> <?= $form->field($model, 'image_side2')->fileInput() ?></div>
-    <div class="col-sm-3"> <?= $form->field($model, 'image_brand')->fileInput() ?></div>
+    <div class="col-sm-3"><img id="blah1" src="<?= Yii::getAlias('@web/images/default/')?>image_main.png" height="380" width="285"> <?= $form->field($model, 'image_main')->fileInput() ?></div>
+    <div class="col-sm-3"><img id="blah2" src="<?= Yii::getAlias('@web/images/default/')?>image_side1.png" height="380" width="285"> <?= $form->field($model, 'image_side1')->fileInput() ?></div>
+    <div class="col-sm-3"><img id="blah3" src="<?= Yii::getAlias('@web/images/default/')?>image_side2.png" height="380" width="285"> <?= $form->field($model, 'image_side2')->fileInput() ?></div>
+    <div class="col-sm-3"><img id="blah4" src="<?= Yii::getAlias('@web/images/default/')?>image_brand.png" height="380" width="285"> <?= $form->field($model, 'image_brand')->fileInput() ?></div>
 </div>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

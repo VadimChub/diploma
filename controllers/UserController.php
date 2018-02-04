@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Dialogs;
 use app\models\forms\LoginForm;
 use app\models\forms\PasswordChangeForm;
 use app\models\Messages;

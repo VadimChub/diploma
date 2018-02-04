@@ -6,8 +6,8 @@ use app\models\Images;
 use app\models\Product;
 use Yii;
 use yii\base\Model;
-use app\models\Category;
-use app\models\Brand;
+use app\modules\admin\models\Category;
+use app\modules\admin\models\Brand;
 use yii\imagine\Image;
 use Imagine\Image\Box;
 

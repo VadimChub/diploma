@@ -1,28 +1,27 @@
 <?php
 
-namespace app\models;
+namespace app\modules\admin\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "brand".
+ * This is the model class for table "category".
  *
  * @property integer $id
  * @property string $name
  *
  * @property Product[] $products
  */
-class Brand extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'brand';
+        return 'category';
     }
-
 
     /**
      * @inheritdoc
@@ -40,15 +39,15 @@ class Brand extends \yii\db\ActiveRecord
      */
     public function getProducts()
     {
-        return $this->hasMany(Product::className(), ['brand_id' => 'id']);
+        return $this->hasMany(Product::className(), ['category_id' => 'id']);
     }
 
     /**
-     * @return array
+     * @return array of all categories
      */
-    public static function getBrands()
+    public static function getCategories()
     {
         $list = self::find()->asArray()->all();
-        return  ArrayHelper::map($list, 'id', 'name');
+        return ArrayHelper::map($list, 'id', 'name');
     }
 }

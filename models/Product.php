@@ -129,6 +129,14 @@ class Product extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return int|string
+     */
+    public static function countAllCheckingProducts()
+    {
+        return self::find()->where(['status' => self::PRODUCT_STATUS_CHECKING])->count();
+    }
+
+    /**
      * @return array|null|\yii\db\ActiveRecord
      */
     public function getImages()

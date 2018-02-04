@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -20,6 +22,9 @@ use yii\web\IdentityInterface;
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+
+    const USER_STATUS_ADMIN = 777;
+
     /**
      * @inheritdoc
      */
@@ -112,5 +117,15 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validateAuthKey($authKey)
     {
         return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     * @param $username string
+     * @param $password string (hash)
+     * @return $this
+     */
+    public static function isAdmin($username, $password)
+    {
+        return self::findOne(['username' => $username, 'password_hash' => $password, 'status' => self::USER_STATUS_ADMIN]);
     }
 }

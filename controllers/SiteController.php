@@ -5,11 +5,8 @@ namespace app\controllers;
 use app\models\Images;
 use app\models\User;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\forms\LoginForm;
 use app\models\ContactForm;
 use app\models\Product;
 use yii\web\NotFoundHttpException;
@@ -130,7 +127,7 @@ class SiteController extends Controller
      */
     protected function findProductModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Product::findOne(['id' => $id, 'status' => Product::PRODUCT_STATUS_SELLING])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

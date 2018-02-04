@@ -3,19 +3,17 @@
 namespace app\controllers;
 
 use app\controllers\behaviors\AccessBehavior;
-use app\models\Brand;
 use app\models\forms\ProductAddForm;
 use app\models\Images;
 use Yii;
 use app\models\Product;
-use app\models\Category;
-use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
-
+use app\modules\admin\models\Brand;
+use app\modules\admin\models\Category;
 /**
  * ProductController implements the CRUD actions for Product model.
  */

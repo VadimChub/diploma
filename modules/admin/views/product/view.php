@@ -6,18 +6,21 @@ use slavkovrn\imagegalary\ImageGalaryWidget;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
-/* @var $images app\models\Images */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['user/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Approve', ['approve', 'id' => $model->id], [
+            'class' => 'btn btn-success',
+            'data' => [
+                'method' => 'post',
+            ],
+        ]) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -29,18 +32,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="row">
         <div class="col-sm-7">
+
             <?= DetailView::widget([
                 'model' => $model,
                 'attributes' => [
-                    //'id',
+                    'id',
                     'title',
                     'short_description',
                     'description:ntext',
-                    //'brand_id',
-                    //'category_id',
+                    'category_id',
+                    'brand_id',
+                    'owner_id',
                     'price',
                     'size',
-                    //'color',
+                    'color',
                     'constitution',
                     'views',
                     'status',
@@ -49,10 +54,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
         </div>
+
         <div class="col-sm-5">
             <?= ImageGalaryWidget::widget([
-                'id' =>'imagegalary',       // id of plugin should be unique at page
-                'class' =>'imagegalary',    // class of div to define style
+                'id' => 'imagegalary',       // id of plugin should be unique at page
+                'class' => 'imagegalary',    // class of div to define style
                 'css' => 'border:white;',   // css commands of class (for example - border-radius:5px;)
                 'image_width' => 300,       // height of image visible in pixels
                 'image_height' => 400,      // width of image visible in pixels
@@ -61,24 +67,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 'items' => 3,               // number of thumb items
                 'images' => [               // images of gallery
                     [
-                        'src' => Yii::getAlias('@web/images/').$images['image_main'],
+                        'src' => Yii::getAlias('@web/images/') . $images['image_main'],
                         'title' => 'Image visible in widget',
                     ],
                     [
-                        'src' => Yii::getAlias('@web/images/').$images['image_side1'],
+                        'src' => Yii::getAlias('@web/images/') . $images['image_side1'],
                         'title' => 'image 1',
                     ],
                     [
-                        'src' => Yii::getAlias('@web/images/').$images['image_side2'],
+                        'src' => Yii::getAlias('@web/images/') . $images['image_side2'],
                         'title' => 'image 2',
                     ],
                     [
-                        'src' => Yii::getAlias('@web/images/').$images['image_brand'],
+                        'src' => Yii::getAlias('@web/images/') . $images['image_brand'],
                         'title' => 'image 3',
                     ],
                 ]
             ]) ?>
         </div>
-    </div>
 
+    </div>
 </div>

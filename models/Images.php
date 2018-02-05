@@ -2,9 +2,7 @@
 
 namespace app\models;
 
-use app\controllers\ProductController;
 use Yii;
-use yii\helpers\ArrayHelper;
 use yii\imagine\Image;
 use Imagine\Image\Box;
 

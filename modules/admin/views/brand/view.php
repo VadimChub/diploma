@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </div>
     <div class="col-sm-5">
+        <?= Html::img(Yii::getAlias('@web/images/brands/').$model->image, ['height' => 100, 'width' => 200])?>
     </div>
 </div>
 

@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use app\modules\admin\models\Brand;
+use app\modules\admin\models\Category;
 
 
 /**

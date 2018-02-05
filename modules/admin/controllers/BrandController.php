@@ -93,9 +93,22 @@ class BrandController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->image_instance = UploadedFile::getInstance($model, 'image');
+            if (!$model->image_instance == null) {
+                $oldImage = $model->getOldAttribute('image');
+                $model->image = md5($model->image_instance->baseName) . '.' . $model->image_instance->extension;
+                if ($model->save()){
+                    $model->saveImage($model->image_instance);
+                    Brand::unlinkOldImage(Yii::getAlias('@images/brands/').$oldImage);
+                    Yii::$app->session->setFlash('success', 'Brand was updated');
+                    return $this->redirect(['brand/index']);
+                }
+            }
+            $model->image = $model->getOldAttribute('image');
+            $model->save();
+            Yii::$app->session->setFlash('success', 'Brand was updated');
+            return $this->redirect(['brand/index']);
         }
 
         return $this->render('update', [

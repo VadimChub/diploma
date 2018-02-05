@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use app\widgets\adminMenu\AdminMenu;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\Brand */

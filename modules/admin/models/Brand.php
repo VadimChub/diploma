@@ -35,8 +35,9 @@ class Brand extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'image'], 'required'],
-            [['name', 'image'], 'string', 'max' => 255],
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 255],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -81,5 +82,13 @@ class Brand extends \yii\db\ActiveRecord
         Image::thumbnail(Yii::getAlias('@images/brands/') . md5($image_instance->baseName) . '.' . $image_instance->extension, 80, 50)
             ->resize(new Box(80, 50))
             ->save(Yii::getAlias('@images/brands/') . md5($image_instance->baseName) . '.' . $image_instance->extension, ['quality' => 100]);
+    }
+
+    /**
+     * @param $image string way to image
+     */
+    public static function unlinkOldImage($image)
+    {
+       unlink($image);
     }
 }

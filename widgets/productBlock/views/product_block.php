@@ -1,5 +1,8 @@
-
 <?php
+
+/* @var $products array */
+/* @var $pages \yii\data\Pagination */
+
 use yii\helpers\Html;
 use app\assets\BlockAsset;
 use yii\widgets\LinkPager;

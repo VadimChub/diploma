@@ -4,6 +4,7 @@ namespace app\modules\admin\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use app\models\Product;
 
 /**
  * This is the model class for table "category".
@@ -22,6 +23,19 @@ class Category extends \yii\db\ActiveRecord
     {
         return 'category';
     }
+
+
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            [['name'], 'required'],
+            [['name'], 'string', 'max' => 255],
+        ];
+    }
+
 
     /**
      * @inheritdoc
@@ -50,4 +64,14 @@ class Category extends \yii\db\ActiveRecord
         $list = self::find()->asArray()->all();
         return ArrayHelper::map($list, 'id', 'name');
     }
+
+    /**
+     * @param $name string
+     * @return array|null|\yii\db\ActiveRecord
+     */
+    public static function getCategoryIdByName($name)
+    {
+        return self::find()->select('id')->where(['name' => $name])->one();
+    }
+
 }

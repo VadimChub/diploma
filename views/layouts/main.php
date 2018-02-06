@@ -35,18 +35,16 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
     echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-left'],
         'items' => [
-            [
-                'label' => 'Categories',
-                'items' => [
-                    ['label' => 'Level 1 - Dropdown A', 'url' => '#'],
-                    ['label' => 'Level 1 - Dropdown B', 'url' => '#'],
-                ],
-            ],
+        [
+            'label' => 'Categories',
+            'items' => \app\components\MenuHelper::getMenu()
         ],
-    ]);
+    ],
+    'options' => ['class' =>'navbar-nav navbar-left'], // set this to nav-tab to get tab-styled navigation
+]);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [

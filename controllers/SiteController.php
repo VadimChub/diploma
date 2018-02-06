@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Images;
 use app\models\User;
+use app\modules\admin\models\Category;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -13,32 +14,6 @@ use yii\web\NotFoundHttpException;
 
 class SiteController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-//            'access' => [
-//                'class' => AccessControl::className(),
-//                'only' => ['logout'],
-//                'rules' => [
-//                    [
-//                        'actions' => ['logout'],
-//                        'allow' => true,
-//                        'roles' => ['@'],
-//                    ],
-//                ],
-//            ],
-//            'verbs' => [
-//                'class' => VerbFilter::className(),
-//                'actions' => [
-//                    'logout' => ['post'],
-//                ],
-//            ],
-
-        ];
-    }
 
     /**
      * @inheritdoc
@@ -66,6 +41,20 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
+    /**
+     * @param $category string GET param
+     * @return string
+     */
+    public function actionCategory($category)
+    {
+        $category_name = $category;
+        $category_id = Category::getCategoryIdByName($category);
+        return $this->render('category', [
+           'category_name' => $category_name,
+            'category_id' => $category_id,
+        ]);
+    }
+
 
     /**
      * Displays contact page.
@@ -86,6 +75,10 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return string
+     */
     public function actionProduct($id)
     {
         $model = $this->findProductModel($id);

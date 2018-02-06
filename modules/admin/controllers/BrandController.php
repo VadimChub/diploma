@@ -125,7 +125,9 @@ class BrandController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        Brand::unlinkOldImage(Yii::getAlias('@images/brands/').$model->image);
+        $model->delete();
 
         return $this->redirect(['index']);
     }

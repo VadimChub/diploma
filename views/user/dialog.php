@@ -31,14 +31,14 @@ ConversationAsset::register($this);
                         <div class="sender-message alert alert-warning" role="alert">
                             <div class="message-time-sender">Me | <?= $message ['created_at']?></div>
 
-                            <?= $message['message'] ?>
+                            <?= Html::encode($message['message']) ?>
                         </div>
                     <?php endif; ?>
 
                     <?php if ($message['receiver'] == $my_id && $message['is_deleted_receiver'] == Messages::MESSAGE_STATUS_OKAY) : ?>
                         <div class="receiver-message alert alert-info" role="alert">
-                            <div class="message-time-receiver"><?= $sender->username?> | <?= $message ['created_at']?></div>
-                            <?= $message['message'] ?>
+                            <div class="message-time-receiver"><?= $sender->username ?> | <?= $message ['created_at']?></div>
+                            <?= Html::encode($message['message']) ?>
                         </div>
                     <?php endif; ?>
 

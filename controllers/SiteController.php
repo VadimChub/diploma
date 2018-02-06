@@ -49,10 +49,15 @@ class SiteController extends Controller
     {
         $category_name = $category;
         $category_id = Category::getCategoryIdByName($category);
-        return $this->render('category', [
-           'category_name' => $category_name,
-            'category_id' => $category_id,
-        ]);
+
+        if ($category_id !== null) {
+            return $this->render('category', [
+                'category_name' => $category_name,
+                'category_id' => $category_id,
+            ]);
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 
